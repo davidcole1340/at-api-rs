@@ -2,10 +2,10 @@
 
 use std::convert::TryInto;
 
-use serde::Deserialize;
+use serde::{Serialize, Deserialize};
 use serde_repr::Deserialize_repr;
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Entity {
     pub id: String,
     pub trip_update: Option<TripUpdate>,
@@ -15,7 +15,7 @@ pub struct Entity {
     // pub alert: Option<Alert>, // unused by AT
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct TripUpdate {
     pub trip: TripDescriptor,
     pub vehicle: Option<VehicleDescriptor>,
@@ -24,7 +24,7 @@ pub struct TripUpdate {
     pub delay: Option<i32>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct StopTimeUpdate {
     pub stop_sequence: Option<u32>,
     pub stop_id: Option<String>,
@@ -34,14 +34,14 @@ pub struct StopTimeUpdate {
     pub schedule_relationship: ScheduleRelationship,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct StopTimeEvent {
     pub delay: Option<i32>,
     pub time: Option<i64>,
     pub uncertainty: Option<i32>,
 }
 
-#[derive(Debug, Deserialize_repr, Clone, Copy)]
+#[derive(Debug, Serialize, Deserialize_repr, Clone, Copy)]
 #[repr(u8)]
 pub enum ScheduleRelationship {
     Scheduled = 0,
@@ -55,7 +55,7 @@ impl Default for ScheduleRelationship {
     }
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct VehiclePosition {
     pub trip: Option<TripDescriptor>,
     pub vehicle: Option<VehicleDescriptor>,
@@ -69,7 +69,7 @@ pub struct VehiclePosition {
     pub occupancy_status: Option<OccupancyStatus>,
 }
 
-#[derive(Debug, Deserialize_repr, Clone, Copy)]
+#[derive(Debug, Serialize, Deserialize_repr, Clone, Copy)]
 #[repr(u8)]
 pub enum VehicleStopStatus {
     // The vehicle is just about to arrive at the stop (on a stop display, the vehicle symbol
@@ -89,7 +89,7 @@ impl Default for VehicleStopStatus {
     }
 }
 
-#[derive(Debug, Deserialize_repr, Clone, Copy)]
+#[derive(Debug, Serialize, Deserialize_repr, Clone, Copy)]
 #[repr(u8)]
 pub enum CongestionLevel {
     UnknownCongestionLevel = 0,
@@ -99,7 +99,7 @@ pub enum CongestionLevel {
     SevereCongestion = 4,
 }
 
-#[derive(Debug, Deserialize_repr, Clone, Copy)]
+#[derive(Debug, Serialize, Deserialize_repr, Clone, Copy)]
 #[repr(u8)]
 pub enum OccupancyStatus {
     Empty = 0,
@@ -111,7 +111,7 @@ pub enum OccupancyStatus {
     NotAcceptingPassengers = 6,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Position {
     pub latitude: f32,
     pub longitude: f32,
@@ -122,7 +122,7 @@ pub struct Position {
     pub speed: Option<f32>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct TripDescriptor {
     pub trip_id: Option<String>,
     pub route_id: Option<String>,
@@ -132,7 +132,7 @@ pub struct TripDescriptor {
     pub schedule_relationship: Option<ScheduleRelationshipTripDescriptor>,
 }
 
-#[derive(Debug, Deserialize_repr, Clone, Copy)]
+#[derive(Debug, Serialize, Deserialize_repr, Clone, Copy)]
 #[repr(u8)]
 pub enum ScheduleRelationshipTripDescriptor {
     Scheduled = 0,
@@ -141,7 +141,7 @@ pub enum ScheduleRelationshipTripDescriptor {
     Cancelled = 3,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct VehicleDescriptor {
     pub id: Option<String>,
     pub label: Option<String>,
@@ -179,7 +179,7 @@ impl Entity {
     }
 }
 
-/// Deserializes a bearing which is sent in the realtime GTFS output from Auckland Transport.
+/// Serialize, Deserializes a bearing which is sent in the realtime GTFS output from Auckland Transport.
 /// Requires a seperate deserialization function due to AT sending a float, integer, string or
 /// nothing for this field.
 pub fn deserialize_bearing<'de, D>(deserializer: D) -> std::result::Result<Option<f32>, D::Error>
