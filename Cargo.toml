@@ -1,6 +1,6 @@
 [package]
 name = "at-api-rs"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2018"
 authors = ["David Cole <david.cole1340@gmail.com>"]
 repository = "https://github.com/davidcole1340/at-api-rs"

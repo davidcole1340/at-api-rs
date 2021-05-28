@@ -2,8 +2,8 @@
 
 use std::convert::TryInto;
 
-use serde::{Serialize, Deserialize};
-use serde_repr::Deserialize_repr;
+use serde::{Deserialize, Serialize};
+use serde_repr::{Deserialize_repr, Serialize_repr};
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Entity {
@@ -41,7 +41,7 @@ pub struct StopTimeEvent {
     pub uncertainty: Option<i32>,
 }
 
-#[derive(Debug, Serialize, Deserialize_repr, Clone, Copy)]
+#[derive(Debug, Serialize_repr, Deserialize_repr, Clone, Copy)]
 #[repr(u8)]
 pub enum ScheduleRelationship {
     Scheduled = 0,
@@ -69,7 +69,7 @@ pub struct VehiclePosition {
     pub occupancy_status: Option<OccupancyStatus>,
 }
 
-#[derive(Debug, Serialize, Deserialize_repr, Clone, Copy)]
+#[derive(Debug, Serialize_repr, Deserialize_repr, Clone, Copy)]
 #[repr(u8)]
 pub enum VehicleStopStatus {
     // The vehicle is just about to arrive at the stop (on a stop display, the vehicle symbol
@@ -89,7 +89,7 @@ impl Default for VehicleStopStatus {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize_repr, Clone, Copy)]
+#[derive(Debug, Serialize_repr, Deserialize_repr, Clone, Copy)]
 #[repr(u8)]
 pub enum CongestionLevel {
     UnknownCongestionLevel = 0,
@@ -99,7 +99,7 @@ pub enum CongestionLevel {
     SevereCongestion = 4,
 }
 
-#[derive(Debug, Serialize, Deserialize_repr, Clone, Copy)]
+#[derive(Debug, Serialize_repr, Deserialize_repr, Clone, Copy)]
 #[repr(u8)]
 pub enum OccupancyStatus {
     Empty = 0,
@@ -132,7 +132,7 @@ pub struct TripDescriptor {
     pub schedule_relationship: Option<ScheduleRelationshipTripDescriptor>,
 }
 
-#[derive(Debug, Serialize, Deserialize_repr, Clone, Copy)]
+#[derive(Debug, Serialize_repr, Deserialize_repr, Clone, Copy)]
 #[repr(u8)]
 pub enum ScheduleRelationshipTripDescriptor {
     Scheduled = 0,
